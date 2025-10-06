@@ -1,0 +1,12 @@
+base_url="https://api.xgrok.club/v1/chat/completions"
+API_KEY="sk-20250401"
+model=
+"grok-2
+grok-2-imageGen
+grok-2-search
+grok-3
+grok-3-search
+grok-3-imageGen
+grok-3-deepsearch
+grok-3-reasoning
+"
