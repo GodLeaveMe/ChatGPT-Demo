@@ -575,6 +575,8 @@ class ModernGPT {
             const delta = data.choices?.[0]?.delta?.content;
             const reasoning = data.choices?.[0]?.delta?.reasoning_content ||
                             data.choices?.[0]?.delta?.thinking ||
+                            data.choices?.[0]?.delta?.thought ||  // Grok 可能用 thought
+                            data.choices?.[0]?.delta?.reasoning ||  // 或 reasoning
                             data.reasoning;
 
             // 第一次接收到任何内容时,清空占位符
@@ -929,6 +931,8 @@ class ModernGPT {
             const delta = data.choices?.[0]?.delta?.content;
             const reasoning = data.choices?.[0]?.delta?.reasoning_content ||
                             data.choices?.[0]?.delta?.thinking ||
+                            data.choices?.[0]?.delta?.thought ||  // Grok 可能用 thought
+                            data.choices?.[0]?.delta?.reasoning ||  // 或 reasoning
                             data.reasoning;
 
             // 第一次接收到任何内容时,清空占位符
@@ -1220,8 +1224,10 @@ class ModernGPT {
         // Qwen 使用 enable_thinking
         requestBody.enable_thinking = true;
       } else if (modelLower.includes('grok')) {
-        // Grok 可能使用 thinking_mode
-        requestBody.thinking_mode = 'deep';
+        // Grok-3-reasoning 模型可能使用以下参数之一
+        requestBody.reasoning_effort = 'high';  // 主流方案
+        requestBody.thinking_mode = 'deep';  // 备选方案
+        requestBody.enable_reasoning = true;  // 备选方案
       }
       // 其他模型如果不支持,参数会被忽略
     }
